@@ -1,7 +1,3 @@
-
-
-
-
 const hamburgerMenu = document.querySelector('.hamburger-menu');
 const body = document.body;
 
@@ -40,8 +36,6 @@ const slideBeforeCertificate = document.querySelectorAll('.slide-before-image-ce
 const slideAfterCertificate = document.querySelectorAll('.slide-after-image-certificate');
 const imageCertificate = document.querySelectorAll('.img-certificate');
 
-
-
 spanCertificate.forEach(function (e, i) {
     e.addEventListener('click', function () {
         overlayCertificate[i].style.transform = 'scale(1)';
@@ -67,7 +61,6 @@ for (let i = 0; i < slideBeforeCertificate.length; i++) {
         overlayCertificate[i - 1].style.transform = 'scale(1)';
     })
 }
-
 
 // ANIMATION SECTION SKILL
 const fieldSkill = document.querySelectorAll('.field-image-skill');
@@ -99,9 +92,9 @@ linkToProject.forEach(function (project) {
         let atributLinkProject = project.getAttribute('href');
 
         Swal.fire({
+            icon: "warning",
             title: "Are you sure?",
             text: "This action will bring you to project",
-            icon: "question",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
@@ -114,9 +107,7 @@ linkToProject.forEach(function (project) {
     })
 })
 
-
-
-// // ANIMATION SECTION PROJECT
+// ANIMATION SECTION PROJECT
 const fieldProject = document.querySelectorAll('.field-project');
 for (let i = 0; i < fieldProject.length; i++) {
     if (window.innerWidth > 768) {
@@ -135,8 +126,6 @@ for (let i = 0; i < fieldProject.length; i++) {
     }
 };
 
-
-
 // ANIMATION SECTION CONTACT
 const formMessage = document.querySelector('.form-message');
 if (window.innerWidth > 768) {
@@ -150,8 +139,7 @@ else {
     formMessage.setAttribute('data-aos', 'zoom-in-down');
 }
 
-
-// ALERTSECTION CONTACT
+// ALERT SECTION CONTACT dan Kirim Pesan ke Bot Telegram
 const formContact = document.querySelector('.form-message');
 formContact.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -166,12 +154,36 @@ formContact.addEventListener('submit', function (e) {
             title: "Form Validation",
             text: "Please fill in the form correctly"
         });
-    }
-    else {
-        Swal.fire({
-            title: "Thank you! your message has been sent",
-            color: 'black'
-        });
+    } else {
+        // Data yang akan dikirim ke Telegram
+        const message = `Haii Aldyy\nSeseorang baru saja mengirim anda pesan\nName\t\t\t\t\t\t\t: ${inputName.value}\nEmail\t\t\t\t\t\t\t: ${inputEmail.value}\nMessage\t: ${inputMessage.value}`;
+
+        // Token API Bot Telegram dan ID Chat
+        const telegramToken = '7387826039:AAGR6GjoVPi7MOCu8jJMG6p2FlvWXINUwBg'; // Ganti dengan Token API bot Telegram
+        const chatId = '-4526152800'; // Ganti dengan ID Chat Telegram Anda
+
+        // URL untuk mengirimkan pesan ke Telegram
+        const telegramUrl = `https://api.telegram.org/bot${telegramToken}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        // Mengirim pesan ke Telegram
+        fetch(telegramUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    Swal.fire({
+                        title: "Thank You! Your message has been sent.",
+                        color: 'black'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: "E",
+                        title: "Failed to send message",
+                        text: "An error occurred while sending the message."
+                    });
+                }
+            });
+
+        // Mengosongkan input
         inputName.value = '';
         inputEmail.value = '';
         inputMessage.value = '';
@@ -181,16 +193,3 @@ formContact.addEventListener('submit', function (e) {
 AOS.init({
     once: false
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
